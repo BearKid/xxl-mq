@@ -1,9 +1,11 @@
 package com.xxl.mq.admin.test.extend.controller;
 
 import com.xxl.mq.admin.extend.controller.RequestUtils;
-import com.xxl.mq.admin.extend.controller.TaskController;
-import com.xxl.mq.admin.core.model.extend.DisposableTaskCreateCmdDTO;
+import com.xxl.mq.admin.extend.controller.DisposableTaskController;
+import com.xxl.mq.client.extend.domain.DisposableTaskCreateCmdDTO;
 import com.xxl.mq.admin.extend.biz.DisposableTaskBiz;
+import com.xxl.mq.client.extend.domain.DisposableTaskUpdateCmdDTO;
+import com.xxl.mq.client.message.XxlMqMessageStatus;
 import org.junit.Before;
 import org.junit.Test;
 import org.mockito.Mockito;
@@ -17,8 +19,8 @@ import static org.mockito.Matchers.any;
 import static org.mockito.Matchers.anyString;
 import static org.mockito.Mockito.when;
 
-public class TaskControllerTest {
-    private TaskController taskController;
+public class DisposableTaskControllerTest {
+    private DisposableTaskController disposableTaskController;
 
     private DisposableTaskBiz disposableTaskBiz;
 
@@ -28,7 +30,7 @@ public class TaskControllerTest {
     public void setUp() {
         disposableTaskBiz = Mockito.mock(DisposableTaskBiz.class);
         requestUtils = Mockito.mock(RequestUtils.class);
-        taskController = new TaskController(disposableTaskBiz, requestUtils);
+        disposableTaskController = new DisposableTaskController(disposableTaskBiz, requestUtils);
     }
 
     @Test
@@ -43,17 +45,34 @@ public class TaskControllerTest {
         // when
         final DisposableTaskCreateCmdDTO task = new DisposableTaskCreateCmdDTO(
             "Order.OrderCreated.DelayMailNotifyUser",
-            "{\"orderId\": 100, \"email\": \"123@qq.com\"",
-            Instant.now().plusSeconds(3600).toEpochMilli()
+            Instant.now().plusSeconds(3600).toEpochMilli(), "{\"orderId\": 100, \"email\": \"123@qq.com\""
         );
         task.setShardingKey(10);
-        task.setExecuteTimeout(10);
+        task.setExecuteTimeout(100);
         task.setMaxRetryCount(4);
 
-        final Long taskId = taskController.createDisposableTask(Mockito.mock(HttpServletRequest.class), task);
+        final Long taskId = disposableTaskController.createDisposableTask(Mockito.mock(HttpServletRequest.class), task);
 
         // then
         assertThat(taskId).isEqualTo(1000L);
         then(disposableTaskBiz).should().create(task, requestIp);
+    }
+
+    @Test
+    public void should_update_disposable_task() {
+
+        // when
+        final DisposableTaskUpdateCmdDTO updateCmd = new DisposableTaskUpdateCmdDTO();
+        updateCmd.setId(1000L);
+        updateCmd.setData("changed data");
+        updateCmd.setStatus(XxlMqMessageStatus.SUCCESS.name());
+        updateCmd.setMaxRetryCount(3);
+        updateCmd.setShardingKey(555);
+        updateCmd.setTriggerTime(Instant.now().plusSeconds(356).toEpochMilli());
+        updateCmd.setExecuteTimeout(3000);
+        disposableTaskController.updateDisposableTask(updateCmd);
+
+        // then
+        then(disposableTaskBiz).should().update(updateCmd);
     }
 }

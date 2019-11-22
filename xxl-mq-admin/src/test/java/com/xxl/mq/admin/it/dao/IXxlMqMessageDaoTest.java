@@ -49,6 +49,44 @@ public class IXxlMqMessageDaoTest extends SpringBootTestBase {
     }
 
     @Test
+    public void should_update(){
+        // given
+        final XxlMqMessage message = new XxlMqMessage();
+        message.setTopic("OldTopic");
+        message.setGroup("OldGroup");
+        message.setData("OldData");
+        message.setStatus(XxlMqMessageStatus.NEW.name());
+        message.setRetryCount(11);
+        message.setShardingId(12);
+        message.setEffectTime(Date.from(Instant.ofEpochMilli(13)));
+        message.setTimeout(14);
+        message.setLog("OldLog");
+        xxlMqMessageDao.add(message);
+        final long taskId = message.getId();
+
+        // when
+        final XxlMqMessage existedEntity = xxlMqMessageDao.findById(taskId);
+        final Date addTime = existedEntity.getAddTime();
+        existedEntity.setTopic("NewTopic");
+        existedEntity.setGroup("NewGroup");
+        existedEntity.setData("NewData");
+        existedEntity.setStatus(XxlMqMessageStatus.RUNNING.name());
+        existedEntity.setRetryCount(21);
+        existedEntity.setShardingId(22);
+        existedEntity.setEffectTime(Date.from(Instant.ofEpochMilli(23)));
+        existedEntity.setTimeout(24);
+        existedEntity.setAddTime(Date.from(Instant.ofEpochMilli(25)));
+        existedEntity.setLog("NewLog");
+        xxlMqMessageDao.update(existedEntity);
+
+        // then
+        final XxlMqMessage actual = xxlMqMessageDao.findById(taskId);
+        assertThat(actual).isEqualToIgnoringGivenFields(existedEntity, "addTime", "effectTime");
+        assertThat(actual.getAddTime()).isInSameSecondWindowAs(addTime);
+        assertThat(actual.getEffectTime()).isInSameSecondWindowAs(existedEntity.getEffectTime());
+    }
+
+    @Test
     public void should_deleteAll() {
         // given
         final XxlMqMessage message1 = new XxlMqMessage("topic", "data", Date.from(Instant.now()));

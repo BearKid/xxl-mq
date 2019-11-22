@@ -32,14 +32,12 @@ public interface IXxlMqMessageDao {
 
     public int delete(@Param("id") int id);
 
-    public int update(@Param("message") XxlMqMessage message);
+    public int partialUpdateWithAppendLog(@Param("message") XxlMqMessage message);
 
 
     // ---------------------- broker api ----------------------
 
     public int save(@Param("messageList") List<XxlMqMessage> messageList);
-
-    void add(XxlMqMessage xxlMqMessage);
 
     public List<XxlMqMessage> pullNewMessage(@Param("newStatus") String newStatus,
                                              @Param("topic") String topic,
@@ -91,9 +89,22 @@ public interface IXxlMqMessageDao {
      */
     public int resetBlockTimeoutMessage(@Param("ingStatus") String ingStatus, @Param("failStatus") String failStatus, @Param("appendLog") String appendLog);
 
+
+    /* **********************************************************************************
+        这些是基于原作二次开发新增的内容。START
+     * **********************************************************************************/
+
+    void add(XxlMqMessage xxlMqMessage);
+
+    void update(XxlMqMessage xxlMqMessage);
+
     void deleteAll();
 
     XxlMqMessage findById(@Param("id") Long id);
 
     long count();
+
+    /* **********************************************************************************
+        这些是基于原作二次开发新增的内容。END
+     * **********************************************************************************/
 }

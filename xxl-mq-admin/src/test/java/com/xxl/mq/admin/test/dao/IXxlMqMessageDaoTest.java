@@ -37,7 +37,7 @@ public class IXxlMqMessageDaoTest {
         message.setTimeout(5);
         message.setLog("555");
 
-        int updateRet = xxlMqMessageDao.update(message);
+        int updateRet = xxlMqMessageDao.partialUpdateWithAppendLog(message);
 
         int delRet = xxlMqMessageDao.delete(1);
     }

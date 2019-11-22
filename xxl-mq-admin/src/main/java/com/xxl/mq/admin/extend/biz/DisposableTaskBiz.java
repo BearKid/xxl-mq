@@ -1,8 +1,9 @@
 package com.xxl.mq.admin.extend.biz;
 
-import com.xxl.mq.admin.core.model.extend.DisposableTaskCreateCmdDTO;
+import com.xxl.mq.client.extend.domain.DisposableTaskCreateCmdDTO;
 import com.xxl.mq.admin.dao.IXxlMqMessageDao;
 import com.xxl.mq.client.consumer.annotation.MqConsumer;
+import com.xxl.mq.client.extend.domain.DisposableTaskUpdateCmdDTO;
 import com.xxl.mq.client.message.XxlMqMessage;
 import com.xxl.mq.client.message.XxlMqMessageStatus;
 import com.xxl.mq.client.util.LogHelper;
@@ -70,5 +71,20 @@ public class DisposableTaskBiz {
         if (mqMessage.getData().length() > 20000) {
             throw new IllegalArgumentException("xxl-mq, data length invalid[0~60000].");
         }
+    }
+
+    public void update(DisposableTaskUpdateCmdDTO updateCmd) {
+        final XxlMqMessage existedEntity = mqMessageDao.findById(updateCmd.getId());
+
+        if (existedEntity == null) {
+            throw new IllegalArgumentException(String.format("task(id = %s) not exists", updateCmd.getId()));
+        }
+        existedEntity.setData(updateCmd.getData());
+        existedEntity.setStatus(updateCmd.getStatus());
+        existedEntity.setRetryCount(updateCmd.getMaxRetryCount());
+        existedEntity.setShardingId(updateCmd.getShardingKey());
+        existedEntity.setEffectTime(Date.from(Instant.ofEpochMilli(updateCmd.getTriggerTime())));
+        existedEntity.setTimeout(updateCmd.getExecuteTimeout());
+        mqMessageDao.update(existedEntity);
     }
 }

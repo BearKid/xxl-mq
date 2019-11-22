@@ -69,7 +69,7 @@ public class XxlMqMessageServiceImpl implements IXxlMqMessageService {
         message.setLog(appendLog);
 
         // update
-        int ret = xxlMqMessageDao.update(message);
+        int ret = xxlMqMessageDao.partialUpdateWithAppendLog(message);
         return ret>0 ? ReturnT.SUCCESS : ReturnT.FAIL;
     }
 

@@ -76,7 +76,7 @@
 		WHERE id = #{id}
 	</delete>
 
-	<update id="update" parameterType="java.util.HashMap" >
+	<update id="partialUpdateWithAppendLog" parameterType="java.util.HashMap" >
 		UPDATE xxl_mq_message AS t
 		SET
 			t.`group` = #{message.group},
@@ -296,6 +296,21 @@
 			#{log}
 		)
 	</insert>
+
+	<update id="update">
+		UPDATE xxl_mq_message AS t
+		SET
+			t.`topic` = #{topic},
+			t.`group` = #{group},
+			t.`data` = #{data},
+			t.`status` = #{status},
+			t.`retryCount` = #{retryCount},
+			t.`shardingId` = #{shardingId},
+			t.`timeout` = #{timeout},
+			t.`effectTime` = #{effectTime},
+			t.`log` = #{log}
+		WHERE t.`id` = #{id}
+	</update>
 
 	<select id="findById" resultMap="XxlMqMessage">
 		SELECT * FROM xxl_mq_message WHERE id = #{id}
