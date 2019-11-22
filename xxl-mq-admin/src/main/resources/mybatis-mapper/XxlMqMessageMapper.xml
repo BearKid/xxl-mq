@@ -212,7 +212,7 @@
 		GROUP BY messageDay;
     </select>
 
-    <delete id="clearMessage" >
+	<delete id="clearMessage" >
         delete from xxl_mq_message
         where 1 = 1
 			<if test="topic != null and topic != ''">
@@ -270,4 +270,43 @@
 			AND NOW() <![CDATA[ > ]]> DATE_ADD( DATE_ADD(effectTime, Interval timeout SECOND) , Interval 1 hour )
 	</delete>
 
+	<!-- 下面这些是基于原作二次开发新增的内容 START -->
+	<insert id="add" useGeneratedKeys="true" keyProperty="id">
+		INSERT INTO xxl_mq_message (
+			`topic`,
+			`group`,
+			`data`,
+			`status`,
+			`retryCount`,
+			`shardingId`,
+			`timeout`,
+			`effectTime`,
+			`addTime`,
+			`log`
+		) VALUES (
+			#{topic},
+			#{group},
+			#{data},
+			#{status},
+			#{retryCount},
+			#{shardingId},
+			#{timeout},
+			#{effectTime},
+			NOW(),
+			#{log}
+		)
+	</insert>
+
+	<select id="findById" resultMap="XxlMqMessage">
+		SELECT * FROM xxl_mq_message WHERE id = #{id}
+	</select>
+
+	<select id="count" resultType="java.lang.Long">
+		SELECT COUNT(*) FROM xxl_mq_message
+	</select>
+
+	<delete id="deleteAll">
+		DELETE FROM xxl_mq_message
+	</delete>
+	<!-- 这些是基于原作二次开发新增的内容 END -->
 </mapper>

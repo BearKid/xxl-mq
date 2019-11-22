@@ -39,6 +39,8 @@ public interface IXxlMqMessageDao {
 
     public int save(@Param("messageList") List<XxlMqMessage> messageList);
 
+    void add(XxlMqMessage xxlMqMessage);
+
     public List<XxlMqMessage> pullNewMessage(@Param("newStatus") String newStatus,
                                              @Param("topic") String topic,
                                              @Param("group") String group,
@@ -89,4 +91,9 @@ public interface IXxlMqMessageDao {
      */
     public int resetBlockTimeoutMessage(@Param("ingStatus") String ingStatus, @Param("failStatus") String failStatus, @Param("appendLog") String appendLog);
 
+    void deleteAll();
+
+    XxlMqMessage findById(@Param("id") Long id);
+
+    long count();
 }

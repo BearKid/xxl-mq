@@ -3,6 +3,7 @@ package com.xxl.mq.admin.test.service;
 import com.xxl.mq.admin.core.model.XxlMqTopic;
 import com.xxl.mq.admin.core.result.ReturnT;
 import com.xxl.mq.admin.service.IXxlMqTopicService;
+import org.junit.Ignore;
 import org.junit.Test;
 import org.junit.runner.RunWith;
 import org.springframework.boot.test.context.SpringBootTest;
@@ -11,6 +12,7 @@ import org.springframework.test.context.junit4.SpringRunner;
 import javax.annotation.Resource;
 import java.util.Map;
 
+@Ignore
 @RunWith(SpringRunner.class)
 @SpringBootTest
 public class IXxlMqTopicServiceTest {

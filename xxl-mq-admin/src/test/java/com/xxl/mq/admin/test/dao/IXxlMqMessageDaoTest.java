@@ -3,6 +3,7 @@ package com.xxl.mq.admin.test.dao;
 import com.xxl.mq.admin.dao.IXxlMqMessageDao;
 import com.xxl.mq.client.message.XxlMqMessage;
 import com.xxl.mq.client.message.XxlMqMessageStatus;
+import org.junit.Ignore;
 import org.junit.Test;
 import org.junit.runner.RunWith;
 import org.springframework.boot.test.context.SpringBootTest;
@@ -13,6 +14,7 @@ import java.util.ArrayList;
 import java.util.Date;
 import java.util.List;
 
+@Ignore
 @RunWith(SpringRunner.class)
 @SpringBootTest
 public class IXxlMqMessageDaoTest {
