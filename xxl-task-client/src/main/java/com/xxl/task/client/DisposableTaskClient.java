@@ -10,7 +10,7 @@ import org.springframework.web.bind.annotation.*;
     name = XxlTaskClientsPackage.SERVICE_NAME_PLACEHOLDER,
     url = XxlTaskClientsPackage.SERVICE_URL_PLACEHOLDER,
     contextId = "xxl-task-DisposableTaskClient",
-    path = "xxl-mq-admin/extension/task"
+    path = "extension/task"
 )
 public interface DisposableTaskClient {
 

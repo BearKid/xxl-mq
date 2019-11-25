@@ -1,6 +1,6 @@
 package com.xxl.mq.sample.frameless.conf;
 
-import com.xxl.mq.client.consumer.IMqConsumer;
+import com.xxl.mq.client.consumer.MqConsumerWrapper;
 import com.xxl.mq.client.factory.XxlMqClientFactory;
 import org.slf4j.Logger;
 import org.slf4j.LoggerFactory;
@@ -26,7 +26,7 @@ public class XxlMqConf {
     /**
      * start
      */
-    public void start(List<IMqConsumer> consumerList){
+    public void start(List<MqConsumerWrapper> consumerList){
 
         // load executor prop
         Properties xxlJobProp = loadProperties("xxl-mq.properties");

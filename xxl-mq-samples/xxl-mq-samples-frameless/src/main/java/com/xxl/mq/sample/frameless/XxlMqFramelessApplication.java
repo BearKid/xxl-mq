@@ -1,7 +1,8 @@
 package com.xxl.mq.sample.frameless;
 
 
-import com.xxl.mq.client.consumer.IMqConsumer;
+import com.xxl.mq.client.consumer.annotation.MqConsumer;
+import com.xxl.mq.client.consumer.MqConsumerWrapper;
 import com.xxl.mq.client.message.XxlMqMessage;
 import com.xxl.mq.client.producer.XxlMqProducer;
 import com.xxl.mq.sample.frameless.conf.XxlMqConf;
@@ -19,8 +20,10 @@ public class XxlMqFramelessApplication {
     public static void main(String[] args) throws Exception {
 
         // consumer list
-        List<IMqConsumer> consumerList = new ArrayList<>();
-        consumerList.add(new Demo2MqComsumer());
+        List<MqConsumerWrapper> consumerList = new ArrayList<>();
+        consumerList.add(new MqConsumerWrapper(
+            new Demo2MqComsumer(), Demo2MqComsumer.class.getAnnotation(MqConsumer.class)
+        ));
 
 
         // start

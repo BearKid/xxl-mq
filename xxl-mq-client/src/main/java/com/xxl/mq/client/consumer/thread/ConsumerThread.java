@@ -31,9 +31,9 @@ public class ConsumerThread extends Thread {
 
     private String uuid;
 
-    public ConsumerThread(IMqConsumer consumerHandler) {
+    public ConsumerThread(IMqConsumer consumerHandler, MqConsumer mqConsumer) {
         this.consumerHandler = consumerHandler;
-        this.mqConsumer = consumerHandler.getClass().getAnnotation(MqConsumer.class);
+        this.mqConsumer = mqConsumer;
 
         this.uuid = UUID.randomUUID().toString().replaceAll("-", "");
     }

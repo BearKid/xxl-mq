@@ -3,6 +3,7 @@ package com.xxl.mq.client.factory;
 import com.xxl.mq.client.broker.IXxlMqBroker;
 import com.xxl.mq.client.consumer.IMqConsumer;
 import com.xxl.mq.client.consumer.annotation.MqConsumer;
+import com.xxl.mq.client.consumer.MqConsumerWrapper;
 import com.xxl.mq.client.consumer.registry.ConsumerRegistryHelper;
 import com.xxl.mq.client.consumer.thread.ConsumerThread;
 import com.xxl.mq.client.message.XxlMqMessage;
@@ -35,7 +36,7 @@ public class XxlMqClientFactory  {
 
     private String adminAddress;
     private String accessToken;
-    private List<IMqConsumer> consumerList;
+    private List<MqConsumerWrapper> consumerList;
 
     public void setAdminAddress(String adminAddress) {
         this.adminAddress = adminAddress;
@@ -43,7 +44,7 @@ public class XxlMqClientFactory  {
     public void setAccessToken(String accessToken) {
         this.accessToken = accessToken;
     }
-    public void setConsumerList(List<IMqConsumer> consumerList) {
+    public void setConsumerList(List<MqConsumerWrapper> consumerList) {
         this.consumerList = consumerList;
     }
 
@@ -257,10 +258,11 @@ public class XxlMqClientFactory  {
         }
 
         // make ConsumerThread
-        for (IMqConsumer consumer : consumerList) {
+        for (MqConsumerWrapper consumerWrap : consumerList) {
 
             // valid annotation
-            MqConsumer annotation = consumer.getClass().getAnnotation(MqConsumer.class);
+            final IMqConsumer consumer = consumerWrap.getConsumer();
+            final MqConsumer annotation = consumerWrap.getMetaData();
             if (annotation == null) {
                 throw new RuntimeException("xxl-mq, MqConsumer("+ consumer.getClass() +"), annotation is not exists.");
             }
@@ -293,7 +295,7 @@ public class XxlMqClientFactory  {
             }
 
             // consumer map
-            consumerRespository.add(new ConsumerThread(consumer));
+            consumerRespository.add(new ConsumerThread(consumer, annotation));
         }
     }
 

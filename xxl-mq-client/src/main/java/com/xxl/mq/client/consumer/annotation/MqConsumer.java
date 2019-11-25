@@ -21,7 +21,7 @@ public @interface MqConsumer {
     /**
      * @return
      */
-    String topic();
+    String topic() default "";
 
     /**
      * @return
