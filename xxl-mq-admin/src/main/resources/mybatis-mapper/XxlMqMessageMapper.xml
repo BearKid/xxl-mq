@@ -267,7 +267,7 @@
 		set `status` = #{failStatus},
 			log = CONCAT(log, #{appendLog})
 		where `status` = #{ingStatus}
-			AND NOW() <![CDATA[ > ]]> DATE_ADD( DATE_ADD(effectTime, Interval timeout SECOND) , Interval 1 hour )
+			AND NOW() <![CDATA[ > ]]> DATE_ADD(effectTime, Interval timeout SECOND)
 	</delete>
 
 	<!-- 下面这些是基于原作二次开发新增的内容 START -->
