@@ -1,4 +1,5 @@
-package com.xxl.mq.client.extension.domain;
+package com.xxl.task.client.domain;
+
 
 import java.util.Objects;
 

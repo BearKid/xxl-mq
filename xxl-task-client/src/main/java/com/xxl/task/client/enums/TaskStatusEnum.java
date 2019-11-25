@@ -1,4 +1,4 @@
-package com.xxl.mq.client.extension.enums;
+package com.xxl.task.client.enums;
 
 /**
  * 任务执行状态

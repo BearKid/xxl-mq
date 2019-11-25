@@ -1,9 +1,9 @@
 package com.xxl.mq.admin.extension.controller;
 
-import com.xxl.mq.client.extension.domain.DisposableTaskCreateCmdDTO;
+import com.xxl.task.client.domain.DisposableTaskCreateCmdDTO;
 import com.xxl.mq.admin.extension.biz.DisposableTaskBiz;
-import com.xxl.mq.client.extension.domain.DisposableTaskDTO;
-import com.xxl.mq.client.extension.domain.DisposableTaskUpdateCmdDTO;
+import com.xxl.task.client.domain.DisposableTaskDTO;
+import com.xxl.task.client.domain.DisposableTaskUpdateCmdDTO;
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.web.bind.annotation.*;
 

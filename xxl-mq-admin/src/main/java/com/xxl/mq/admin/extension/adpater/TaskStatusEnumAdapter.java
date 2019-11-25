@@ -1,6 +1,6 @@
 package com.xxl.mq.admin.extension.adpater;
 
-import com.xxl.mq.client.extension.enums.TaskStatusEnum;
+import com.xxl.task.client.enums.TaskStatusEnum;
 import com.xxl.mq.client.message.XxlMqMessageStatus;
 import org.springframework.stereotype.Component;
 
