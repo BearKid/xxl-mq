@@ -14,6 +14,7 @@
     <modules>
         <module>xxl-mq-samples-frameless</module>
         <module>xxl-mq-samples-springboot</module>
+        <module>xxl-task-samples-springboot</module>
     </modules>
 
 </project>

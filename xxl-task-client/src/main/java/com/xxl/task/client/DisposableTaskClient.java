@@ -10,7 +10,7 @@ import org.springframework.web.bind.annotation.*;
     name = XxlTaskClientsPackage.SERVICE_NAME_PLACEHOLDER,
     url = XxlTaskClientsPackage.SERVICE_URL_PLACEHOLDER,
     contextId = "xxl-task-DisposableTaskClient",
-    path = "xxl-mq-admin"
+    path = "xxl-mq-admin/extension/task"
 )
 public interface DisposableTaskClient {
 
@@ -21,7 +21,7 @@ public interface DisposableTaskClient {
      * @return 任务ID
      */
     @PostMapping(path = "disposable-tasks")
-    Long createDisposableTask(DisposableTaskCreateCmdDTO disposableTaskCreateCmd);
+    Long createDisposableTask(@RequestBody DisposableTaskCreateCmdDTO disposableTaskCreateCmd);
 
     /**
      * 更新一次性任务
