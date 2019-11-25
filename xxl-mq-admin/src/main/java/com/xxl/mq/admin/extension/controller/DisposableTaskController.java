@@ -38,13 +38,14 @@ public class DisposableTaskController {
     }
 
     /**
-     * 更新一次性任务
+     * 更新某个一次性任务
      *
-     * @param updateCmd
+     * @param taskId 任务ID
+     * @param updateCmd 单个任务更新的命令信息
      */
-    @PutMapping(path = "disposable-tasks")
-    public void updateDisposableTask(@RequestBody DisposableTaskUpdateCmdDTO updateCmd) {
-        disposableTaskBiz.update(updateCmd);
+    @PutMapping(path = "disposable-tasks/{taskId}")
+    public void updateDisposableTask(@PathVariable("taskId") Long taskId, @RequestBody DisposableTaskUpdateCmdDTO updateCmd) {
+        disposableTaskBiz.update(taskId, updateCmd);
     }
 
     /**

@@ -1,11 +1,9 @@
 package com.xxl.task.client.domain;
 
+/**
+ * 某单个一次性任务的更新命令
+ */
 public class DisposableTaskUpdateCmdDTO {
-
-    /**
-     * 任务ID
-     */
-    private Long id;
 
     /**
      * 任务业务数据
@@ -36,14 +34,6 @@ public class DisposableTaskUpdateCmdDTO {
      * 任务可执行最大时长
      */
     private Integer executeTimeout;
-
-    public void setId(Long id) {
-        this.id = id;
-    }
-
-    public Long getId() {
-        return id;
-    }
 
     public void setData(String data) {
         this.data = data;
@@ -87,9 +77,6 @@ public class DisposableTaskUpdateCmdDTO {
 
     public void validate() {
         String errMsg = null;
-        if (id == null) {
-            errMsg = "id must not be null";
-        }
 
         if (data == null) {
             errMsg = "data must not be null";

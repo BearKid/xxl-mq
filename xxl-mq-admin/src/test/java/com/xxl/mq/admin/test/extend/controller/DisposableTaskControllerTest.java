@@ -64,17 +64,16 @@ public class DisposableTaskControllerTest {
 
         // when
         final DisposableTaskUpdateCmdDTO updateCmd = new DisposableTaskUpdateCmdDTO();
-        updateCmd.setId(1000L);
         updateCmd.setData("changed data");
         updateCmd.setStatus(XxlMqMessageStatus.SUCCESS.name());
         updateCmd.setMaxRetryCount(3);
         updateCmd.setShardingKey(555);
         updateCmd.setTriggerTime(Instant.now().plusSeconds(356).toEpochMilli());
         updateCmd.setExecuteTimeout(3000);
-        disposableTaskController.updateDisposableTask(updateCmd);
+        disposableTaskController.updateDisposableTask(1000L, updateCmd);
 
         // then
-        then(disposableTaskBiz).should().update(updateCmd);
+        then(disposableTaskBiz).should().update(1000L, updateCmd);
     }
 
     @Test

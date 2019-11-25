@@ -102,18 +102,17 @@ public class DisposableTaskBizTest {
 
         // when
         final DisposableTaskUpdateCmdDTO updateCmd = new DisposableTaskUpdateCmdDTO();
-        updateCmd.setId(testId);
         updateCmd.setData("changed data");
         updateCmd.setStatus(XxlMqMessageStatus.SUCCESS.name());
         updateCmd.setMaxRetryCount(2);
         updateCmd.setShardingKey(346346);
         updateCmd.setTriggerTime(Instant.now().plusSeconds(3566).toEpochMilli());
         updateCmd.setExecuteTimeout(3600);
-        disposableTaskBiz.update(updateCmd);
+        disposableTaskBiz.update(testId, updateCmd);
 
         // then
         final XxlMqMessage expectedMessage = new XxlMqMessage();
-        expectedMessage.setId(updateCmd.getId());
+        expectedMessage.setId(testId);
         expectedMessage.setTopic(existedEntity.getTopic());
         expectedMessage.setGroup(existedEntity.getGroup());
         expectedMessage.setData(updateCmd.getData());

@@ -80,13 +80,14 @@ public class DisposableTaskBiz {
     /**
      * 修改更新任务信息
      *
+     * @param taskId
      * @param updateCmd
      */
-    public void update(DisposableTaskUpdateCmdDTO updateCmd) {
-        final XxlMqMessage existedEntity = mqMessageDao.findById(updateCmd.getId());
+    public void update(Long taskId, DisposableTaskUpdateCmdDTO updateCmd) {
+        final XxlMqMessage existedEntity = mqMessageDao.findById(taskId);
 
         if (existedEntity == null) {
-            throw new IllegalArgumentException(String.format("task(id = %s) not exists", updateCmd.getId()));
+            throw new IllegalArgumentException(String.format("task(id = %s) not exists", taskId));
         }
         existedEntity.setData(updateCmd.getData());
         existedEntity.setStatus(updateCmd.getStatus());

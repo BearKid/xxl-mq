@@ -28,8 +28,8 @@ public interface DisposableTaskClient {
      *
      * @param updateCmd
      */
-    @PutMapping(path = "disposable-tasks")
-    void updateDisposableTask(DisposableTaskUpdateCmdDTO updateCmd);
+    @PutMapping(path = "disposable-tasks/{taskId}")
+    void updateDisposableTask(@PathVariable(name = "taskId") Long taskId, DisposableTaskUpdateCmdDTO updateCmd);
 
     /**
      * 按任务id删除对应任务记录
