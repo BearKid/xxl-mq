@@ -3,7 +3,9 @@ package com.xxl.mq.admin.extend.biz;
 import com.xxl.mq.client.extend.domain.DisposableTaskCreateCmdDTO;
 import com.xxl.mq.admin.dao.IXxlMqMessageDao;
 import com.xxl.mq.client.consumer.annotation.MqConsumer;
+import com.xxl.mq.client.extend.domain.DisposableTaskDTO;
 import com.xxl.mq.client.extend.domain.DisposableTaskUpdateCmdDTO;
+import com.xxl.mq.admin.extend.adpater.TaskStatusEnumAdapter;
 import com.xxl.mq.client.message.XxlMqMessage;
 import com.xxl.mq.client.message.XxlMqMessageStatus;
 import com.xxl.mq.client.util.LogHelper;
@@ -17,10 +19,12 @@ import java.util.Date;
 public class DisposableTaskBiz {
 
     private IXxlMqMessageDao mqMessageDao;
+    private final TaskStatusEnumAdapter taskStatusEnumAdapter;
 
     @Autowired
-    public DisposableTaskBiz(IXxlMqMessageDao mqMessageDao) {
+    public DisposableTaskBiz(IXxlMqMessageDao mqMessageDao, TaskStatusEnumAdapter taskStatusEnumAdapter) {
         this.mqMessageDao = mqMessageDao;
+        this.taskStatusEnumAdapter = taskStatusEnumAdapter;
     }
 
     /**
@@ -73,6 +77,11 @@ public class DisposableTaskBiz {
         }
     }
 
+    /**
+     * 修改更新任务信息
+     *
+     * @param updateCmd
+     */
     public void update(DisposableTaskUpdateCmdDTO updateCmd) {
         final XxlMqMessage existedEntity = mqMessageDao.findById(updateCmd.getId());
 
@@ -86,5 +95,39 @@ public class DisposableTaskBiz {
         existedEntity.setEffectTime(Date.from(Instant.ofEpochMilli(updateCmd.getTriggerTime())));
         existedEntity.setTimeout(updateCmd.getExecuteTimeout());
         mqMessageDao.update(existedEntity);
+    }
+
+    /**
+     * 按任务id删除对应任务记录
+     *
+     * @param taskId 任务id
+     */
+    public void deleteById(Long taskId) {
+        mqMessageDao.deleteById(taskId);
+    }
+
+    /**
+     * 按任务id查询相应的任务记录
+     *
+     * @param taskId 任务id
+     * @return
+     */
+    public DisposableTaskDTO findTaskById(Long taskId) {
+        final XxlMqMessage mqMessage = mqMessageDao.findById(taskId);
+        if (mqMessage == null) {
+            return null;
+        }
+        final DisposableTaskDTO task = new DisposableTaskDTO();
+        task.setId(mqMessage.getId());
+        task.setTaskTopic(mqMessage.getTopic());
+        task.setData(mqMessage.getData());
+        task.setStatus(taskStatusEnumAdapter.convertFromXxlMqMessageStatus(mqMessage.getStatus()).getKey());
+        task.setMaxRetryCount(mqMessage.getRetryCount());
+        task.setShardingKey(mqMessage.getShardingId());
+        task.setTriggerTime(mqMessage.getEffectTime().getTime());
+        task.setExecuteTimeout(mqMessage.getTimeout());
+        task.setCreateTime(mqMessage.getAddTime().getTime());
+        task.setLog(mqMessage.getLog());
+        return task;
     }
 }

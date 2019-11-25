@@ -49,7 +49,7 @@ public class IXxlMqMessageDaoTest extends SpringBootTestBase {
     }
 
     @Test
-    public void should_update(){
+    public void should_update() {
         // given
         final XxlMqMessage message = new XxlMqMessage();
         message.setTopic("OldTopic");
@@ -114,5 +114,37 @@ public class IXxlMqMessageDaoTest extends SpringBootTestBase {
 
         // then
         assertThat(xxlMqMessageDao.count()).isEqualTo(0);
+    }
+
+    @Test
+    public void should_deleteById() {
+        // given
+        final XxlMqMessage message = new XxlMqMessage("topic1", "data1", Date.from(Instant.now()));
+        message.setGroup(MqConsumer.DEFAULT_GROUP);
+        message.setStatus(XxlMqMessageStatus.NEW.name());
+        message.setRetryCount(5);
+        message.setShardingId(235);
+        message.setTimeout(1000);
+        message.setLog("这是日志");
+        xxlMqMessageDao.add(message);
+
+        final XxlMqMessage message2 = new XxlMqMessage("topic2", "data2", Date.from(Instant.now()));
+        message2.setGroup(MqConsumer.DEFAULT_GROUP);
+        message2.setStatus(XxlMqMessageStatus.NEW.name());
+        message2.setRetryCount(5);
+        message2.setShardingId(235);
+        message2.setTimeout(1000);
+        message2.setLog("这是日志");
+        xxlMqMessageDao.add(message2);
+
+        // when
+        xxlMqMessageDao.deleteById(message.getId());
+
+        // then
+        final XxlMqMessage actual = xxlMqMessageDao.findById(message.getId());
+        assertThat(actual).isNull();
+
+        final XxlMqMessage actual2 = xxlMqMessageDao.findById(message2.getId());
+        assertThat(actual2).isNotNull();
     }
 }

@@ -2,6 +2,7 @@ package com.xxl.mq.admin.extend.controller;
 
 import com.xxl.mq.client.extend.domain.DisposableTaskCreateCmdDTO;
 import com.xxl.mq.admin.extend.biz.DisposableTaskBiz;
+import com.xxl.mq.client.extend.domain.DisposableTaskDTO;
 import com.xxl.mq.client.extend.domain.DisposableTaskUpdateCmdDTO;
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.web.bind.annotation.*;
@@ -44,5 +45,21 @@ public class DisposableTaskController {
     @PutMapping(path = "disposable-tasks")
     public void updateDisposableTask(@RequestBody DisposableTaskUpdateCmdDTO updateCmd) {
         disposableTaskBiz.update(updateCmd);
+    }
+
+    /**
+     * 按任务id删除对应任务记录
+     */
+    @DeleteMapping(path = "disposable-tasks/{taskId}")
+    public void deleteById(@PathVariable(name = "taskId") Long taskId) {
+        disposableTaskBiz.deleteById(taskId);
+    }
+
+    /**
+     * 按任务id查询相应的任务记录
+     */
+    @GetMapping(path = "disposable-tasks/{taskId}")
+    public DisposableTaskDTO findTaskById(@PathVariable(name = "taskId") Long taskId) {
+        return disposableTaskBiz.findTaskById(taskId);
     }
 }

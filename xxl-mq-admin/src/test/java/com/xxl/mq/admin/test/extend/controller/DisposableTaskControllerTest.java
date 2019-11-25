@@ -4,6 +4,7 @@ import com.xxl.mq.admin.extend.controller.RequestUtils;
 import com.xxl.mq.admin.extend.controller.DisposableTaskController;
 import com.xxl.mq.client.extend.domain.DisposableTaskCreateCmdDTO;
 import com.xxl.mq.admin.extend.biz.DisposableTaskBiz;
+import com.xxl.mq.client.extend.domain.DisposableTaskDTO;
 import com.xxl.mq.client.extend.domain.DisposableTaskUpdateCmdDTO;
 import com.xxl.mq.client.message.XxlMqMessageStatus;
 import org.junit.Before;
@@ -74,5 +75,26 @@ public class DisposableTaskControllerTest {
 
         // then
         then(disposableTaskBiz).should().update(updateCmd);
+    }
+
+    @Test
+    public void should_delete_disposable_task(){
+        disposableTaskController.deleteById(1L);
+        // then
+        then(disposableTaskBiz).should().deleteById(1L);
+    }
+
+    @Test
+    public void should_findTaskById(){
+        // given
+        final DisposableTaskDTO expectedTask = new DisposableTaskDTO();
+        when(disposableTaskBiz.findTaskById(1L)).thenReturn(expectedTask);
+
+        // when
+        final DisposableTaskDTO task = disposableTaskController.findTaskById(1L);
+
+        // then
+        then(disposableTaskBiz).should().findTaskById(1L);
+        assertThat(task).isEqualTo(expectedTask);
     }
 }

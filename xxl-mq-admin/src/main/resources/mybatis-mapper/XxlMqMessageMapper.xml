@@ -320,6 +320,11 @@
 		SELECT COUNT(*) FROM xxl_mq_message
 	</select>
 
+	<delete id="deleteById" parameterType="java.util.HashMap" >
+		DELETE FROM xxl_mq_message
+		WHERE id = #{id}
+	</delete>
+
 	<delete id="deleteAll">
 		DELETE FROM xxl_mq_message
 	</delete>

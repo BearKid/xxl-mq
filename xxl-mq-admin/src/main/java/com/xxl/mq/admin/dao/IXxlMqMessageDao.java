@@ -98,6 +98,8 @@ public interface IXxlMqMessageDao {
 
     void update(XxlMqMessage xxlMqMessage);
 
+    void deleteById(@Param("id") Long id);
+
     void deleteAll();
 
     XxlMqMessage findById(@Param("id") Long id);

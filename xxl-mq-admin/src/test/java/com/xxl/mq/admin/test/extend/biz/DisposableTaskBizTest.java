@@ -1,10 +1,12 @@
-package com.xxl.mq.admin.test.extend;
+package com.xxl.mq.admin.test.extend.biz;
 
 import com.xxl.mq.client.extend.domain.DisposableTaskCreateCmdDTO;
 import com.xxl.mq.admin.dao.IXxlMqMessageDao;
 import com.xxl.mq.admin.extend.biz.DisposableTaskBiz;
 import com.xxl.mq.client.consumer.annotation.MqConsumer;
+import com.xxl.mq.client.extend.domain.DisposableTaskDTO;
 import com.xxl.mq.client.extend.domain.DisposableTaskUpdateCmdDTO;
+import com.xxl.mq.admin.extend.adpater.TaskStatusEnumAdapter;
 import com.xxl.mq.client.message.XxlMqMessage;
 import com.xxl.mq.client.message.XxlMqMessageStatus;
 import org.junit.Before;
@@ -25,15 +27,17 @@ public class DisposableTaskBizTest {
 
     private DisposableTaskBiz disposableTaskBiz;
     private IXxlMqMessageDao mqMessageDao;
+    private TaskStatusEnumAdapter taskStatusEnumAdapter;
 
     @Before
     public void setUp() {
         mqMessageDao = Mockito.mock(IXxlMqMessageDao.class);
-        disposableTaskBiz = new DisposableTaskBiz(mqMessageDao);
+        taskStatusEnumAdapter = new TaskStatusEnumAdapter();
+        disposableTaskBiz = new DisposableTaskBiz(mqMessageDao, taskStatusEnumAdapter);
     }
 
     @Test
-    public void should_create_task() {
+    public void should_createTask() {
         // given
         Mockito.doAnswer(invocationOnMock -> {
             final XxlMqMessage entity = invocationOnMock.getArgumentAt(0, XxlMqMessage.class);
@@ -78,7 +82,7 @@ public class DisposableTaskBizTest {
     }
 
     @Test
-    public void should_update_task() {
+    public void should_updateTask() {
         final long testId = 1000L;
 
         // given:
@@ -137,5 +141,51 @@ public class DisposableTaskBizTest {
                 }
             }
         });
+    }
+
+    @Test
+    public void should_deleteTaskById() {
+        // when
+        disposableTaskBiz.deleteById(1L);
+        // then
+        then(mqMessageDao).should().deleteById(1L);
+    }
+
+    @Test
+    public void should_findTaskById() {
+        // given:
+        final XxlMqMessage mqMessage = new XxlMqMessage();
+        mqMessage.setId(1L);
+        mqMessage.setTopic("MyTopic");
+        mqMessage.setGroup(MqConsumer.DEFAULT_GROUP);
+        mqMessage.setData("MyData");
+        mqMessage.setStatus(XxlMqMessageStatus.RUNNING.name());
+        mqMessage.setRetryCount(5);
+        mqMessage.setShardingId(1234);
+        mqMessage.setEffectTime(Date.from(Instant.ofEpochMilli(11)));
+        mqMessage.setTimeout(12);
+        mqMessage.setAddTime(Date.from(Instant.ofEpochMilli(13)));
+        mqMessage.setLog("MyLog这是日志");
+
+        when(mqMessageDao.findById(1L)).thenReturn(mqMessage);
+        // when
+        final DisposableTaskDTO task = disposableTaskBiz.findTaskById(1L);
+
+        // then
+        then(mqMessageDao).should().findById(1L);
+
+        final DisposableTaskDTO expectedTask = new DisposableTaskDTO();
+        expectedTask.setId(mqMessage.getId());
+        expectedTask.setTaskTopic(mqMessage.getTopic());
+        expectedTask.setData(mqMessage.getData());
+        expectedTask.setStatus(taskStatusEnumAdapter.convertFromXxlMqMessageStatus(mqMessage.getStatus()).getKey());
+        expectedTask.setMaxRetryCount(mqMessage.getRetryCount());
+        expectedTask.setShardingKey(mqMessage.getShardingId());
+        expectedTask.setTriggerTime(mqMessage.getEffectTime().getTime());
+        expectedTask.setExecuteTimeout(mqMessage.getTimeout());
+        expectedTask.setCreateTime(mqMessage.getAddTime().getTime());
+        expectedTask.setLog(mqMessage.getLog());
+
+        assertThat(task).isEqualTo(expectedTask);
     }
 }
