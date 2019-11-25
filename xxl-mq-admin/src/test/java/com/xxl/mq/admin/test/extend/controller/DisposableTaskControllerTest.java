@@ -1,11 +1,11 @@
 package com.xxl.mq.admin.test.extend.controller;
 
-import com.xxl.mq.admin.extend.controller.RequestUtils;
-import com.xxl.mq.admin.extend.controller.DisposableTaskController;
-import com.xxl.mq.client.extend.domain.DisposableTaskCreateCmdDTO;
-import com.xxl.mq.admin.extend.biz.DisposableTaskBiz;
-import com.xxl.mq.client.extend.domain.DisposableTaskDTO;
-import com.xxl.mq.client.extend.domain.DisposableTaskUpdateCmdDTO;
+import com.xxl.mq.admin.extension.controller.RequestUtils;
+import com.xxl.mq.admin.extension.controller.DisposableTaskController;
+import com.xxl.mq.client.extension.domain.DisposableTaskCreateCmdDTO;
+import com.xxl.mq.admin.extension.biz.DisposableTaskBiz;
+import com.xxl.mq.client.extension.domain.DisposableTaskDTO;
+import com.xxl.mq.client.extension.domain.DisposableTaskUpdateCmdDTO;
 import com.xxl.mq.client.message.XxlMqMessageStatus;
 import org.junit.Before;
 import org.junit.Test;

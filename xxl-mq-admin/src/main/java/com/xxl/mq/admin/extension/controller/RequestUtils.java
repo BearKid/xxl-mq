@@ -1,4 +1,4 @@
-package com.xxl.mq.admin.extend.controller;
+package com.xxl.mq.admin.extension.controller;
 
 import org.springframework.stereotype.Component;
 

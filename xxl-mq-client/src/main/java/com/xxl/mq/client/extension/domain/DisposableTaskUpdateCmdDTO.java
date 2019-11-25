@@ -1,4 +1,4 @@
-package com.xxl.mq.client.extend.domain;
+package com.xxl.mq.client.extension.domain;
 
 public class DisposableTaskUpdateCmdDTO {
 

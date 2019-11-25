@@ -1,12 +1,12 @@
 package com.xxl.mq.admin.test.extend.biz;
 
-import com.xxl.mq.client.extend.domain.DisposableTaskCreateCmdDTO;
+import com.xxl.mq.client.extension.domain.DisposableTaskCreateCmdDTO;
 import com.xxl.mq.admin.dao.IXxlMqMessageDao;
-import com.xxl.mq.admin.extend.biz.DisposableTaskBiz;
+import com.xxl.mq.admin.extension.biz.DisposableTaskBiz;
 import com.xxl.mq.client.consumer.annotation.MqConsumer;
-import com.xxl.mq.client.extend.domain.DisposableTaskDTO;
-import com.xxl.mq.client.extend.domain.DisposableTaskUpdateCmdDTO;
-import com.xxl.mq.admin.extend.adpater.TaskStatusEnumAdapter;
+import com.xxl.mq.client.extension.domain.DisposableTaskDTO;
+import com.xxl.mq.client.extension.domain.DisposableTaskUpdateCmdDTO;
+import com.xxl.mq.admin.extension.adpater.TaskStatusEnumAdapter;
 import com.xxl.mq.client.message.XxlMqMessage;
 import com.xxl.mq.client.message.XxlMqMessageStatus;
 import org.junit.Before;

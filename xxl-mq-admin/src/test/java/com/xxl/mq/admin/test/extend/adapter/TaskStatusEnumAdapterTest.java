@@ -1,7 +1,7 @@
 package com.xxl.mq.admin.test.extend.adapter;
 
-import com.xxl.mq.client.extend.enums.TaskStatusEnum;
-import com.xxl.mq.admin.extend.adpater.TaskStatusEnumAdapter;
+import com.xxl.mq.client.extension.enums.TaskStatusEnum;
+import com.xxl.mq.admin.extension.adpater.TaskStatusEnumAdapter;
 import com.xxl.mq.client.message.XxlMqMessageStatus;
 import org.junit.Test;
 
