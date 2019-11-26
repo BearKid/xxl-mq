@@ -12,6 +12,7 @@
 
 	<modules>
 		<module>xxl-mq-client</module>
+		<module>xxl-task-client</module>
 		<module>xxl-mq-admin</module>
 		<module>xxl-mq-samples</module>
 	</modules>

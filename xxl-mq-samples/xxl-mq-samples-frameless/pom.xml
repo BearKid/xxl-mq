@@ -11,6 +11,9 @@
     <artifactId>xxl-mq-samples-frameless</artifactId>
     <packaging>jar</packaging>
 
+    <properties>
+        <maven.test.skip>true</maven.test.skip>
+    </properties>
 
     <dependencies>
         <!-- xxl-mq-client -->
