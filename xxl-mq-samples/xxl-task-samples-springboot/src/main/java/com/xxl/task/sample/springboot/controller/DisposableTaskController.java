@@ -4,6 +4,7 @@ import com.xxl.task.client.DisposableTaskClient;
 import com.xxl.task.client.domain.DisposableTaskCreateCmdDTO;
 import com.xxl.task.client.domain.DisposableTaskDTO;
 import com.xxl.task.client.domain.DisposableTaskUpdateCmdDTO;
+import com.xxl.task.client.enums.TaskStatusEnum;
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.web.bind.annotation.PostMapping;
 import org.springframework.web.bind.annotation.RequestMapping;
@@ -50,7 +51,7 @@ public class DisposableTaskController {
         // update task by id
         final DisposableTaskUpdateCmdDTO updateCmd = new DisposableTaskUpdateCmdDTO();
         updateCmd.setData(createdTask.getData() + "-changed");
-        updateCmd.setStatus("Success");
+        updateCmd.setStatus(TaskStatusEnum.SUCCESS.getKey());
         updateCmd.setMaxRetryCount(createCmd.getMaxRetryCount() + 1);
         updateCmd.setShardingKey(createCmd.getShardingKey() + 1);
         updateCmd.setTriggerTime(createCmd.getTriggerTime() + 1);

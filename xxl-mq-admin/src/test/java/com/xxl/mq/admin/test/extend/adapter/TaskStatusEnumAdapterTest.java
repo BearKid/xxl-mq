@@ -30,4 +30,13 @@ public class TaskStatusEnumAdapterTest {
 
         assertThat(notExistsStatus).isNull();
     }
+
+    @Test
+    public void should_convertToXxlMqMessageStatus(){
+        // assert all normal status
+        Arrays.stream(TaskStatusEnum.values()).forEach(taskStatus -> {
+            final XxlMqMessageStatus mqMsgStatus = taskStatusEnumAdapter.convertToXxlMessageStatus(taskStatus);
+            assertThat(mqMsgStatus).isNotNull();
+        });
+    }
 }

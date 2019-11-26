@@ -7,6 +7,7 @@ import com.xxl.mq.admin.extension.biz.DisposableTaskBiz;
 import com.xxl.task.client.domain.DisposableTaskDTO;
 import com.xxl.task.client.domain.DisposableTaskUpdateCmdDTO;
 import com.xxl.mq.client.message.XxlMqMessageStatus;
+import com.xxl.task.client.enums.TaskStatusEnum;
 import org.junit.Before;
 import org.junit.Test;
 import org.mockito.Mockito;
@@ -65,7 +66,7 @@ public class DisposableTaskControllerTest {
         // when
         final DisposableTaskUpdateCmdDTO updateCmd = new DisposableTaskUpdateCmdDTO();
         updateCmd.setData("changed data");
-        updateCmd.setStatus(XxlMqMessageStatus.SUCCESS.name());
+        updateCmd.setStatus(TaskStatusEnum.SUCCESS.getKey());
         updateCmd.setMaxRetryCount(3);
         updateCmd.setShardingKey(555);
         updateCmd.setTriggerTime(Instant.now().plusSeconds(356).toEpochMilli());

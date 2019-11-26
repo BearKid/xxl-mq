@@ -13,7 +13,7 @@ public class DisposableTaskUpdateCmdDTO {
     /**
      * 任务执行状态
      */
-    private String status;
+    private Integer status;
 
     /**
      * 失败的最大可重试次数
@@ -43,11 +43,11 @@ public class DisposableTaskUpdateCmdDTO {
         return data;
     }
 
-    public void setStatus(String status) {
+    public void setStatus(Integer status) {
         this.status = status;
     }
 
-    public String getStatus() {
+    public Integer getStatus() {
         return status;
     }
 

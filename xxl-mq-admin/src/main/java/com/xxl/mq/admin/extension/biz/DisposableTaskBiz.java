@@ -9,6 +9,7 @@ import com.xxl.mq.admin.extension.adpater.TaskStatusEnumAdapter;
 import com.xxl.mq.client.message.XxlMqMessage;
 import com.xxl.mq.client.message.XxlMqMessageStatus;
 import com.xxl.mq.client.util.LogHelper;
+import com.xxl.task.client.enums.TaskStatusEnum;
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.stereotype.Component;
 
@@ -80,8 +81,8 @@ public class DisposableTaskBiz {
     /**
      * 修改更新任务信息
      *
-     * @param taskId
-     * @param updateCmd
+     * @param taskId 任务ID
+     * @param updateCmd 更新命令信息
      */
     public void update(Long taskId, DisposableTaskUpdateCmdDTO updateCmd) {
         final XxlMqMessage existedEntity = mqMessageDao.findById(taskId);
@@ -90,7 +91,11 @@ public class DisposableTaskBiz {
             throw new IllegalArgumentException(String.format("task(id = %s) not exists", taskId));
         }
         existedEntity.setData(updateCmd.getData());
-        existedEntity.setStatus(updateCmd.getStatus());
+
+        final XxlMqMessageStatus mqMsgStatus
+            = taskStatusEnumAdapter.convertToXxlMessageStatus(TaskStatusEnum.findByKey(updateCmd.getStatus()));
+
+        existedEntity.setStatus(mqMsgStatus.name());
         existedEntity.setRetryCount(updateCmd.getMaxRetryCount());
         existedEntity.setShardingId(updateCmd.getShardingKey());
         existedEntity.setEffectTime(Date.from(Instant.ofEpochMilli(updateCmd.getTriggerTime())));

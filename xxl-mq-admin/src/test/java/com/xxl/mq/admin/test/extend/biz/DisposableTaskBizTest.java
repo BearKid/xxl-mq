@@ -9,6 +9,7 @@ import com.xxl.task.client.domain.DisposableTaskUpdateCmdDTO;
 import com.xxl.mq.admin.extension.adpater.TaskStatusEnumAdapter;
 import com.xxl.mq.client.message.XxlMqMessage;
 import com.xxl.mq.client.message.XxlMqMessageStatus;
+import com.xxl.task.client.enums.TaskStatusEnum;
 import org.junit.Before;
 import org.junit.Test;
 import org.mockito.ArgumentMatcher;
@@ -103,7 +104,7 @@ public class DisposableTaskBizTest {
         // when
         final DisposableTaskUpdateCmdDTO updateCmd = new DisposableTaskUpdateCmdDTO();
         updateCmd.setData("changed data");
-        updateCmd.setStatus(XxlMqMessageStatus.SUCCESS.name());
+        updateCmd.setStatus(TaskStatusEnum.SUCCESS.getKey());
         updateCmd.setMaxRetryCount(2);
         updateCmd.setShardingKey(346346);
         updateCmd.setTriggerTime(Instant.now().plusSeconds(3566).toEpochMilli());
@@ -116,7 +117,11 @@ public class DisposableTaskBizTest {
         expectedMessage.setTopic(existedEntity.getTopic());
         expectedMessage.setGroup(existedEntity.getGroup());
         expectedMessage.setData(updateCmd.getData());
-        expectedMessage.setStatus(updateCmd.getStatus());
+        expectedMessage.setStatus(
+            taskStatusEnumAdapter.convertToXxlMessageStatus(
+                TaskStatusEnum.findByKey(updateCmd.getStatus())
+            ).name()
+        );
         expectedMessage.setRetryCount(updateCmd.getMaxRetryCount());
         expectedMessage.setShardingId(updateCmd.getShardingKey());
         expectedMessage.setEffectTime(Date.from(Instant.ofEpochMilli(updateCmd.getTriggerTime())));
