@@ -69,7 +69,7 @@ public class DisposableTaskController {
         final ExecutorService executorService = Executors.newFixedThreadPool(workerNum);
         try {
 
-            final List<List<Integer>> partitions = partition(IntStream.range(1, taskNum).boxed().collect(Collectors.toList()), workerNum);
+            final List<List<Integer>> partitions = partition(IntStream.range(0, taskNum).boxed().collect(Collectors.toList()), workerNum);
             final List<Future<List<Long>>> futures = partitions.stream().map(p -> {
                 return executorService.submit(() -> {
                     return p.stream().map(idx -> {
