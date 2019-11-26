@@ -273,7 +273,7 @@ public class XxlMqClientFactory  {
                 try {
                     // annotation memberValues
                     InvocationHandler invocationHandler = Proxy.getInvocationHandler(annotation);
-                    Field mValField = invocationHandler.getClass().getDeclaredField("memberValues");
+                    Field mValField = invocationHandler.getClass().getDeclaredField("valueCache");
                     mValField.setAccessible(true);
                     Map memberValues = (Map) mValField.get(invocationHandler);
 
